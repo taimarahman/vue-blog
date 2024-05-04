@@ -1,4 +1,9 @@
-<script setup></script>
+<script setup>
+import { usePostsStore } from './stores/posts';
+
+const postsStore = usePostsStore()
+postsStore.fetchData()
+</script>
 
 <template>
   <header class="bg-blue-600 px-16 py-4">
@@ -8,7 +13,7 @@
     </nav>
   </header>
 
-  <div class="p-16">
+  <div>
     <RouterView />
   </div>
 </template>

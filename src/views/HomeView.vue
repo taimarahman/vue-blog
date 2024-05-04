@@ -1,57 +1,51 @@
 <script setup>
 import PostItem from '@/components/PostItem.vue'
 import Wrapper from '@/components/ItemWrapper.vue'
+import { usePostsStore } from '@/stores/posts'
+import { ref } from 'vue'
 
-const posts = [
-  {
-    id: 1,
-    title: 'Introduction to JavaScript',
-    body: 'JavaScript is a powerful programming language used for creating dynamic and interactive web pages. With JavaScript, developers can add features like form validation, animations, and interactive maps to their web applications.',
-    author: 'John Doe',
-    created_at: '2024-05-04',
-    is_saved: false
-  },
-  {
-    id: 2,
-    title: 'The Art of Cooking',
-    body: 'Cooking is not just a necessity but also an art form that allows individuals to express their creativity and passion. From simple home-cooked meals to gourmet dishes, the art of cooking brings people together and nourishes both body and soul.',
-    author: 'Jane Smith',
-    created_at: '2024-05-03',
-    is_saved: true
-  },
-  {
-    id: 3,
-    title: 'Exploring the Grand Canyon',
-    body: 'The Grand Canyon is a breathtaking natural wonder located in Arizona, USA. Exploring the Grand Canyon offers visitors the chance to marvel at stunning landscapes, hike along scenic trails, and learn about geological history.',
-    author: 'David Johnson',
-    created_at: '2024-05-02',
-    is_saved: false
-  },
-  {
-    id: 4,
-    title: 'Machine Learning Basics',
-    body: 'Machine learning is a subset of artificial intelligence that focuses on developing algorithms capable of learning from data and making predictions without explicit programming. Understanding machine learning basics is essential for data scientists, engineers, and developers.',
-    author: 'Emily Brown',
-    created_at: '2024-05-01',
-    is_saved: true
-  },
-  {
-    id: 5,
-    title: 'Traveling on a Budget',
-    body: 'Traveling can be affordable with proper planning and budgeting. By choosing budget-friendly destinations, opting for public transportation, and taking advantage of discounts, anyone can enjoy enriching travel experiences without breaking the bank.',
-    author: 'Michael Lee',
-    created_at: '2024-04-30',
-    is_saved: false
-  }
-]
+const postsStore = usePostsStore()
+
+const postFilter = ref('all')
+
+const setPostFilter = () => {
+  postFilter.value = postFilter.value === 'all' ? 'saved' : 'all'
+}
 </script>
 
 <template>
-  <div class="grid grid-cols-2 xl:grid-cols-3 gap-4">
-    <div v-for="post in posts" :key="post.id">
-      <Wrapper>
-        <PostItem :post="post" />
-      </Wrapper>
+  <div class="bg-white py-4 px-16 shadow-sm flex justify-between content-center">
+    <div class="relative">
+      <h3 class="font-semibold">
+        {{ postFilter === 'all' ? 'All Posts' : 'Saved Posts' }}
+      </h3>
+      <span v-show="postsStore.loading" 
+      class="material-icons absolute -right-8 top-0 animate-spin">cached</span>
     </div>
+    <button
+      @click="setPostFilter"
+      class="capitalize rounded-md bg-indigo-600 px-3 py-2 text-center text-white text-sm shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+    >
+      {{ postFilter === 'all' ? 'Show Saved Posts' : 'Show All Posts' }}
+    </button>
+  </div>
+
+  <div v-if="postsStore.errMsg" class="bg-red-200 rounded-2xl p-4 m-16 mt-8 text-center text-red-950 font-bold">{{ postsStore.errMsg }}</div>
+
+  <div class="grid grid-cols-2 xl:grid-cols-3 gap-4 m-16">
+    <template v-if="postFilter === 'all'">
+      <div v-for="post in postsStore.sorted" :key="post.id">
+        <Wrapper>
+          <PostItem :post="post" />
+        </Wrapper>
+      </div>
+    </template>
+    <template v-if="postFilter === 'saved'">
+      <div v-for="post in postsStore.getFilteredPost" :key="post.id">
+        <Wrapper>
+          <PostItem :post="post" />
+        </Wrapper>
+      </div>
+    </template>
   </div>
 </template>

@@ -1,18 +1,24 @@
 <script setup>
+import { usePostsStore } from '@/stores/posts';
+
 defineProps({
   post: {
     type: Object,
     required: true
   }
 })
+
+const postsStore = usePostsStore()
 </script>
 
 <template>
   <div class="bg-blue-400 flex justify-between p-4">
-    <span>Written by {{ post.author }} on {{ post.created_at }}</span>
+    <h4 class="text-white">Written by {{ post.author }} on {{ post.created_at }}</h4>
     <div class="space-x-1">
-      <button class="text-red-600 rounded-full bg-white material-icons">delete</button>
-      <button class="text-green-400 rounded-full bg-white material-icons">bookmark_border</button>
+      <button @click="postsStore.deletePost(post.id)" class="text-red-600 rounded-full bg-white material-icons">delete</button>
+      <button @click="postsStore.savePost(post.id)" class="text-green-700 rounded-full bg-white material-icons">
+        {{ post.is_saved ? 'bookmark' : 'bookmark_border' }}
+      </button>
     </div>
   </div>
   <div class="p-4">

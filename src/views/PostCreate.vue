@@ -1,6 +1,8 @@
 <script setup>
 import ItemWrapper from '@/components/ItemWrapper.vue'
+import { usePostsStore } from '@/stores/posts'
 import { computed, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 
 const newPost = reactive({
   title: '',
@@ -11,12 +13,16 @@ const isFormInvalid = computed(() => {
   return newPost.title === '' || newPost.body === ''
 })
 
+const postsStore = usePostsStore()
+const router = useRouter()
 const submit = () => {
-  
+  postsStore.addPost(newPost)
+  router.push({ name: 'home' })
 }
+console.log(new Date(postsStore.posts[4].created_at))
 </script>
 <template>
-  <ItemWrapper>
+  <ItemWrapper class="m-16">
     <form @submit.prevent="submit" class="bg-white p-8 space-y-4">
       <h3 class="text-xl font-semibold mb-4">Create New Post</h3>
       <div class="space-y-2">
@@ -39,7 +45,8 @@ const submit = () => {
       </div>
       <div class="mt-2">
         <button
-          :disabled="isFormInvalid" :class="{'cursor-not-allowed bg-gray-500 hover:bg-gray-600' : isFormInvalid}"
+          :disabled="isFormInvalid"
+          :class="{ 'cursor-not-allowed bg-gray-500 hover:bg-gray-600': isFormInvalid }"
           class="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           Add
