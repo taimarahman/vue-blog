@@ -19,14 +19,13 @@ const submit = () => {
   postsStore.addPost(newPost)
   router.push({ name: 'home' })
 }
-console.log(new Date(postsStore.posts[4].created_at))
 </script>
 <template>
   <ItemWrapper class="m-16">
-    <form @submit.prevent="submit" class="bg-white p-8 space-y-4">
+    <form @submit.prevent="submit" class="bg-elbg text-ink p-8 space-y-4">
       <h3 class="text-xl font-semibold mb-4">Create New Post</h3>
       <div class="space-y-2">
-        <label for="title" class="blockleading-6 capitalize text-gray-900">Post title</label>
+        <label for="title" class="blockleading-6 capitalize text-ink">Post title</label>
         <input
           type="text"
           id="title"
@@ -35,7 +34,7 @@ console.log(new Date(postsStore.posts[4].created_at))
         />
       </div>
       <div class="space-y-2">
-        <label for="body" class="block leading-6 capitalize text-gray-900">Post body</label>
+        <label for="body" class="block leading-6 capitalize text-ink">Post body</label>
         <textarea
           id="body"
           rows="4"

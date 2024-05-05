@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.light {
+  --primary: 14, 165, 233;
+  --nav: 29, 78, 216;
+  --background: 241, 245, 249;
+  --elbg: 255, 255, 255;
+  --ink: 0, 0, 0;
+  --white-ink: 255, 255, 255;
+
+}
+
+.dark {
+  --primary: 14, 165, 233;
+  --nav: 29, 78, 216;
+  --background: 17, 24, 39;
+  --elbg: 31, 41, 55;
+  --ink: 255, 255, 255;
+  --white-ink: 0, 0, 0;
+  
+}

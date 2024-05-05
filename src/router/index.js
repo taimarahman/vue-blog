@@ -14,9 +14,12 @@ const router = createRouter({
       path: '/create-post',
       name: 'postCreate',
       component: PostCreate
-    },
- 
-  ]
+    }
+  ],
+
+  scrollBehavior() {
+    return { top: 0 }
+  }
 })
 
 export default router

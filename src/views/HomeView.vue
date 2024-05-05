@@ -19,8 +19,9 @@ const setPostFilter = () => {
       <h3 class="font-semibold">
         {{ postFilter === 'all' ? 'All Posts' : 'Saved Posts' }}
       </h3>
-      <span v-show="postsStore.loading" 
-      class="material-icons absolute -right-8 top-0 animate-spin">cached</span>
+      <span v-show="postsStore.loading" class="material-icons absolute -right-8 top-0 animate-spin"
+        >cached</span
+      >
     </div>
     <button
       @click="setPostFilter"
@@ -30,7 +31,12 @@ const setPostFilter = () => {
     </button>
   </div>
 
-  <div v-if="postsStore.errMsg" class="bg-red-200 rounded-2xl p-4 m-16 mt-8 text-center text-red-950 font-bold">{{ postsStore.errMsg }}</div>
+  <div
+    v-if="postsStore.errMsg"
+    class="bg-red-200 rounded-2xl p-4 m-16 mt-8 text-center text-red-950 font-bold"
+  >
+    {{ postsStore.errMsg }}
+  </div>
 
   <div class="grid grid-cols-2 xl:grid-cols-3 gap-4 m-16">
     <template v-if="postFilter === 'all'">
